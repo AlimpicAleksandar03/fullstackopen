@@ -1,0 +1,14 @@
+browser -> server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+server -> browser: status: 302 Content-Type: text/html .. 
+
+
+Server redirects the browser to ask for a new request. This time it is GET request to the address specified in the Location
+header of response object. The browser then reloads a page which causes 3 new request:
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: main.js
+(main.js causes the last request)
+browser -> server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{ content: "HTML is easy"...]
