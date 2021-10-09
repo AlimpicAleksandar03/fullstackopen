@@ -36,8 +36,5 @@ const Button = ({ handleClick, text }) => {
 const generateRandomIndex = (arr) => {
     return Math.floor(Math.random() * arr.length);
 };
-// const Winner = ({ anecdotes, totalVotes }) => {
-//     const winner = anecdotes[totalVotes.indexOf(Math.max(...points))];
-//     return <div>{winner}</div>;
-// };
+
 export default App;
