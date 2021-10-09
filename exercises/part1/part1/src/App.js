@@ -26,7 +26,10 @@ const App = () => {
             <h3> {anecdotes[selected]}</h3>
             <Button handleClick={handleRandom} text='Next anecdote' />
             <Button text='Vote' handleClick={handleVote} />
-            <div>{anecdotes[points.indexOf(Math.max(...points))]}</div>
+            <div>
+                <strong>Highest vote</strong>:{" "}
+                {anecdotes[points.indexOf(Math.max(...points))]}
+            </div>
         </div>
     );
 };
