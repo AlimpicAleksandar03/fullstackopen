@@ -55,22 +55,22 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-            <div>
+            <label>
                 Filter: <input onChange={updateFilter} />
-            </div>
+            </label>
             <form onSubmit={addPerson}>
-                <div>
-                    Name: <input value={newName} onChange={updateName} />
-                </div>
-                <div>
-                    Number: <input value={newNumber} onChange={updateNumber} />
-                </div>
-                <div>
-                    <button type="submit">add</button>
-                </div>
+                <label>
+                    Name:
+                    <input value={newName} onChange={updateName} />
+                </label>
+                <label>
+                    Number:
+                    <input value={newNumber} onChange={updateNumber} />
+                </label>
+                <button type="submit">Add</button>
             </form>
             <h2>Numbers</h2>
-            <div>
+            <ul>
                 {peopleList.map((person) => (
                     <Person
                         name={person.name}
@@ -78,15 +78,15 @@ const App = () => {
                         key={person.id}
                     />
                 ))}
-            </div>
+            </ul>
         </div>
     );
 };
 const Person = ({ name, number }) => {
     return (
-        <div>
-            {name} {number}
-        </div>
+        <li>
+            {name} &mdash; {number}
+        </li>
     );
 };
 
