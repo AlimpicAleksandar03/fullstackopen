@@ -16,6 +16,7 @@ const App = () => {
         setNewNumber(number);
     };
     console.log(names);
+    const getMaxId = () => Math.max(...people.map(person => person.id));
     const addPerson = (e) => {
         e.preventDefault();
         const newPerson = {
