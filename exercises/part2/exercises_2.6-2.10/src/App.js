@@ -51,10 +51,10 @@ const App = () => {
             </div>
             <form onSubmit={addPerson}>
                 <div>
-                    name: <input value={newName} onChange={updateName} />
+                    Name: <input value={newName} onChange={updateName} />
                 </div>
                 <div>
-                    number: <input value={newNumber} onChange={updateNumber} />
+                    Number: <input value={newNumber} onChange={updateNumber} />
                 </div>
                 <div>
                     <button type="submit">add</button>
