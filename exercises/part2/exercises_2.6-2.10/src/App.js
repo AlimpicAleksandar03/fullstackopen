@@ -10,9 +10,8 @@ const App = () => {
     const [filter, setFilter] = useState('');
     const [newName, setNewName] = useState("");
     const [newNumber, setNewNumber] = useState("");
-    const names = persons.map((p) => p.name);
-    console.log(names);
     const getMaxId = () => Math.max(...people.map(person => person.id));
+
     const addPerson = (e) => {
         e.preventDefault();
 
@@ -25,22 +24,24 @@ const App = () => {
 
         const newPerson = {
             name: newName,
-            id: persons.length + 1,
+            id: getMaxId() + 1,
             number: newNumber,
         };
-        if (names.includes(newPerson.name)) {
+
+        if (people.find(({name}) => name === newPerson.name)) {
             alert(`${newPerson.name} is already added to phone book`);
-            setNewName("");
-            setNewNumber("");
         } else {
-            setPersons(persons.concat(newPerson));
-            setNewName("");
-            setNewNumber("");
+            setPeople([newPerson, ...people]);
         }
+        setNewName("");
+        setNewNumber("");
+    };
+
     const updateNumber = (e) => {
         const number = e.target.value;
         setNewNumber(number);
     };
+
     const updateName = (e) => {
         const name = e.target.value;
         setNewName(name);
