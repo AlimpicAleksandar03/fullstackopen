@@ -7,6 +7,7 @@ const App = () => {
         { name: "Dan Abramov", number: "12-43-234345", id: 3 },
         { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
     ]);
+    const [filter, setFilter] = useState('');
     const [newName, setNewName] = useState("");
     const [newNumber, setNewNumber] = useState("");
     const names = persons.map((p) => p.name);
@@ -36,15 +37,17 @@ const App = () => {
         const name = e.target.value;
         setNewName(name);
     };
-    const filter = (e) => {
-        const match = new RegExp(e.target.value, "i");
-        setPersons(persons.filter((person) => match.test(person.name)));
-    };
+    const updateFilter = (event) => {
+        const input = event.target.value;
+        setFilter(input);
+    }
+
+    const peopleList = filter.length > 0 ? persons.filter(({name}) => name.toLowerCase().includes(filter.toLowerCase())) : persons;
     return (
         <div>
             <h2>Phonebook</h2>
             <div>
-                Filter: <input onChange={filter} />
+                Filter: <input onChange={updateFilter} />
             </div>
             <form onSubmit={addPerson}>
                 <div>
@@ -59,7 +62,7 @@ const App = () => {
             </form>
             <h2>Numbers</h2>
             <div>
-                {persons.map((person) => (
+                {peopleList.map((person) => (
                     <Person
                         name={person.name}
                         number={person.number}
