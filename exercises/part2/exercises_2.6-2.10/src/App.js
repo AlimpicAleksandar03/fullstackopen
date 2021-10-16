@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const App = () => {
-    const [persons, setPersons] = useState([
+    const [people, setPeople] = useState([
         { name: "Arto Hellas", number: "040-123456", id: 1 },
         { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
         { name: "Dan Abramov", number: "12-43-234345", id: 3 },
@@ -42,7 +42,7 @@ const App = () => {
         setFilter(input);
     }
 
-    const peopleList = filter.length > 0 ? persons.filter(({name}) => name.toLowerCase().includes(filter.toLowerCase())) : persons;
+    const peopleList = filter.length > 0 ? people.filter(({name}) => name.toLowerCase().includes(filter.toLowerCase())) : people;
     return (
         <div>
             <h2>Phonebook</h2>
