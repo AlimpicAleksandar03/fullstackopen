@@ -11,10 +11,6 @@ const App = () => {
     const [newName, setNewName] = useState("");
     const [newNumber, setNewNumber] = useState("");
     const names = persons.map((p) => p.name);
-    const updateNumber = (e) => {
-        const number = e.target.value;
-        setNewNumber(number);
-    };
     console.log(names);
     const getMaxId = () => Math.max(...people.map(person => person.id));
     const addPerson = (e) => {
@@ -33,6 +29,9 @@ const App = () => {
             setNewName("");
             setNewNumber("");
         }
+    const updateNumber = (e) => {
+        const number = e.target.value;
+        setNewNumber(number);
     };
     const updateName = (e) => {
         const name = e.target.value;
