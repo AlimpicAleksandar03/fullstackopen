@@ -15,6 +15,14 @@ const App = () => {
     const getMaxId = () => Math.max(...people.map(person => person.id));
     const addPerson = (e) => {
         e.preventDefault();
+
+        if (!newName || newName.length === 0) {
+            return alert('Name cannot be empty');
+        }
+        if (!newNumber || newNumber.length === 0) {
+            return alert('Number cannot be empty');
+        }
+
         const newPerson = {
             name: newName,
             id: persons.length + 1,
