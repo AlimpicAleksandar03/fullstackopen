@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const App = () => {
-    const [people, setPeople] = useState([
-        { name: "Arto Hellas", number: "040-123456", id: 1 },
-        { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
-        { name: "Dan Abramov", number: "12-43-234345", id: 3 },
-        { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
-    ]);
+    const [people, setPeople] = useState([]);
     const [filter, setFilter] = useState("");
     const [newName, setNewName] = useState("");
     const [newNumber, setNewNumber] = useState("");
     const getMaxId = () => Math.max(...people.map((person) => person.id));
-
+    useEffect(() => {
+        axios.get("http://localhost:3001/persons").then((response) => {
+            setPeople(response.data);
+        });
+    }, []);
+    console.log(people);
     const addPerson = (e) => {
         e.preventDefault();
 
@@ -54,7 +55,7 @@ const App = () => {
     const peopleList =
         filter.length > 0
             ? people.filter(({ name }) =>
-                  name.toLowerCase().includes(filter.toLowerCase()),
+                  name.toLowerCase().includes(filter.toLowerCase())
               )
             : people;
     return (
