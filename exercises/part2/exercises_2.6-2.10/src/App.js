@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-
+import personService from "./services/service";
+import People from "./components/people";
+import Filter from "./components/filter";
+import PersonForm from "./components/form";
 const App = () => {
     const [people, setPeople] = useState([]);
     const [filter, setFilter] = useState("");
     const [newName, setNewName] = useState("");
     const [newNumber, setNewNumber] = useState("");
-    const getMaxId = () => Math.max(...people.map((person) => person.id));
     useEffect(() => {
-        axios.get("http://localhost:3001/persons").then((response) => {
-            setPeople(response.data);
-        });
+        personService.fetchAll().then((resp) => setPeople(resp));
     }, []);
-    console.log(people);
     const addPerson = (e) => {
         e.preventDefault();
 
@@ -25,19 +23,42 @@ const App = () => {
 
         const newPerson = {
             name: newName,
-            id: getMaxId() + 1,
             number: newNumber,
         };
+        const existingPerson = people.find(
+            (person) => person.name == newPerson.name
+        );
 
-        if (people.find(({ name }) => name === newPerson.name)) {
-            alert(`${newPerson.name} is already added to phone book`);
+        if (existingPerson) {
+            if (
+                window.confirm(
+                    `${existingPerson.name} already exists in phonebook, replace old number with new one?`
+                )
+            ) {
+                personService
+                    .updateNumber(newPerson, existingPerson.id)
+                    .then((updatedPerson) =>
+                        setPeople(
+                            [updatedPerson].concat(
+                                ...people.filter(
+                                    (person) =>
+                                        person.name !== existingPerson.name
+                                )
+                            )
+                        )
+                    );
+            }
         } else {
-            setPeople([newPerson, ...people]);
+            personService
+                .create(newPerson)
+                .then((resp) => setPeople([resp, ...people]));
         }
         setNewName("");
         setNewNumber("");
     };
-
+    if (newNumber) {
+        console.log(newNumber);
+    }
     const updateNumber = (e) => {
         const number = e.target.value;
         setNewNumber(number);
@@ -58,6 +79,7 @@ const App = () => {
                   name.toLowerCase().includes(filter.toLowerCase())
               )
             : people;
+    const deleteUser = personService.deleteUser;
     return (
         <div>
             <h2>Phonebook</h2>
@@ -70,48 +92,13 @@ const App = () => {
                 updateNumber={updateNumber}
             />
             <h2>Numbers</h2>
-            <People people={peopleList} />
+            <People
+                people={peopleList}
+                deleteUser={deleteUser}
+                setPeople={setPeople}
+                allPeople={people}
+            />
         </div>
-    );
-};
-const Person = ({ name, number }) => {
-    return (
-        <li>
-            {name} &mdash; {number}
-        </li>
-    );
-};
-const People = ({ people }) => {
-    return (
-        <ul>
-            {people.map((person) => (
-                <Person
-                    name={person.name}
-                    number={person.number}
-                    key={person.id}
-                />
-            ))}
-        </ul>
-    );
-};
-const PersonForm = ({ name, number, updateName, updateNumber, onSubmit }) => {
-    return (
-        <form onSubmit={onSubmit}>
-            <label>
-                Name: <input value={name} onChange={updateName} />
-            </label>
-            <label>
-                Number: <input value={number} onChange={updateNumber} />
-            </label>
-            <button type="submit">Add</button>
-        </form>
-    );
-};
-const Filter = ({ updateFilter }) => {
-    return (
-        <label>
-            Filter: <input onChange={updateFilter} />
-        </label>
     );
 };
 
