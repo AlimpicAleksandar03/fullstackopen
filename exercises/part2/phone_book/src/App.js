@@ -12,6 +12,7 @@ const App = () => {
     const [newNumber, setNewNumber] = useState("");
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
+    console.log(error);
     useEffect(() => {
         personService.fetchAll().then((resp) => setPeople(resp));
     }, []);
@@ -76,6 +77,10 @@ const App = () => {
                     setTimeout(() => {
                         setMessage(null);
                     }, 1500);
+                })
+                .catch((err) => {
+                    setError(`Person validation failed: ${err.name}`);
+                    setTimeout(() => setError(null), 1500);
                 });
         }
         setNewName("");
