@@ -1,8 +1,0 @@
-put http://localhost:3001/api/blogs/61901aa120fb4669cd239d29
-Content-Type: application/json
-
-{
-    "title": "refactoring..",
-    "url": "http://localhost:3001/api/blogs",
-    "likes": 69
-}

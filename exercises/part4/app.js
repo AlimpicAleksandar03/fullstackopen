@@ -6,13 +6,20 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const Blog = require("./models/blog");
 const config = require("./utils/config");
-const blogRouter = require("./controllers/blogs");
+const blogsRouter = require("./controllers/blogs");
 const requestLogger = require("./utils/middleware").requestLogger;
+const getTokenFrom = require("./utils/middleware").getTokenFrom;
+const usersRouter = require("./controllers/users");
+const loginRouter = require("./controllers/login");
+const errorHandler = require("./utils/middleware").errorHandler;
 
 mongoose.connect(config.mongoUrl);
 app.use(express.json());
 app.use(cors());
+app.use(getTokenFrom);
 app.use(requestLogger);
-app.use("/api/blogs", blogRouter);
-
+app.use("/api/blogs", blogsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
+app.use(errorHandler);
 module.exports = app;

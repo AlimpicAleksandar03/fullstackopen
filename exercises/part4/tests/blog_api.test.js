@@ -27,7 +27,7 @@ describe("get request ", () => {
 });
 describe("post request", () => {
     test("number of blogs is increased by one", async () => {
-        const resp = await api
+        await api
             .post("/api/blogs")
             .send({ author: "Anonymous", title: "Hi there", url: "http://" });
         const blogs = await Blog.find({});
