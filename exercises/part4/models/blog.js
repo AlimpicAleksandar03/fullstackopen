@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
 
 const blogSchema = new mongoose.Schema({
-    title: String,
+    title: {
+        type: String,
+    },
     author: {
         type: String,
     },
-    url: String,
+    url: {
+        type: String,
+    },
     likes: {
         type: Number,
     },

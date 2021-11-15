@@ -1,0 +1,10 @@
+post http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imh5cGVyIiwiaWQiOiI2MTkxM2U3YjY4NTFlMDZhMzQwN2U0MDIiLCJpYXQiOjE2MzY5OTQ4MTh9.3QEbr6nwk-qXHq2o5UKEkLK9svyB1cgMYUQIcL5dQ0w
+
+
+{   
+    "url": "hyper",
+    "author": "Kamenje123",
+    "title": "Hyper"
+}

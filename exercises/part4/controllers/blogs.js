@@ -15,9 +15,8 @@ blogRouter.post("/", middleware.extractUser, async (request, response) => {
     const user = request.user;
     const body = request.body;
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    if (!body.likes) body.likes = 0;
-    if (!body.title || !body.url) {
-        return response.status(400).end();
+    if (!(body.url && body.title)) {
+        return response.status(400).json({ error: "title or url are missing" });
     }
     if (!decodedToken.id) {
         return response.status(401).json({ error: "token missing or invalid" });
@@ -26,6 +25,7 @@ blogRouter.post("/", middleware.extractUser, async (request, response) => {
         url: body.url,
         title: body.title,
         author: body.author,
+        likes: body.likes || 0,
         user: user._id,
     });
     const savedBlog = await blog.save();

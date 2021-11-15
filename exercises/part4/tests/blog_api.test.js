@@ -7,6 +7,8 @@ const initialBlogs = [
     { content: "Hello World", author: "aleksandar" },
     { content: "Hello There", author: "ivan" },
 ];
+const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImlnbGEiLCJpZCI6IjYxOTI2MzZlZjVmYzg3ZDE3NWVlODFhNiIsImlhdCI6MTYzNjk5NDA2M30.ugjvzQG2w9BOuNUiUpONFZjFPwcQXU97mDTyO1YGF7M";
 jest.setTimeout(100000);
 beforeEach(async () => {
     await Blog.deleteMany({});
@@ -29,6 +31,7 @@ describe("post request", () => {
     test("number of blogs is increased by one", async () => {
         await api
             .post("/api/blogs")
+            .set("Authorization", `bearer ${token}`)
             .send({ author: "Anonymous", title: "Hi there", url: "http://" });
         const blogs = await Blog.find({});
         expect(blogs).toHaveLength(initialBlogs.length + 1);
@@ -39,24 +42,35 @@ describe("title or url are missing", () => {
     test("url is missing", async () => {
         await api
             .post("/api/blogs")
+            .set("Authorization", `bearer ${token}`)
             .send({ author: "John", title: "someTitle" })
             .expect(400);
     });
     test("title is missing", async () => {
-        const response = await api
+        await api
             .post("/api/blogs")
-            .send({ url: "http://", title: "asd" });
+            .set("Authorization", `bearer ${token}`)
+            .send({ url: "http://", title: "" })
+            .expect(400);
     });
 });
 describe("if likes are missing, it will default to zero", () => {
     test("", async () => {
         const resp = await api
             .post("/api/blogs")
+            .set("Authorization", `bearer ${token}`)
             .send({ url: "http://", title: "asd" });
         expect(resp.body.likes).toEqual(0);
     });
 });
-
+describe("if token is missing", () => {
+    test("", async () => {
+        await api
+            .post("/api/blogs")
+            .send({ url: "http://", title: "asd" })
+            .expect(401);
+    });
+});
 afterAll(() => {
     mongoose.connection.close();
 });
