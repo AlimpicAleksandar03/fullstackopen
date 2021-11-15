@@ -14,7 +14,7 @@ const loginRouter = require("./controllers/login");
 const errorHandler = require("./utils/middleware").errorHandler;
 
 mongoose.connect(config.mongoUrl);
-app.use(express.json());
+app.use(express.json()); 
 app.use(cors());
 app.use(getTokenFrom);
 app.use(requestLogger);
