@@ -4,18 +4,16 @@ import blogService from "./services/blogs";
 import loginService from "./services/login";
 import Error from "./components/Error";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
+import BlogForm from "./components/BlogForm";
 
 const App = () => {
     const [blogs, setBlogs] = useState([]);
     const [user, setUser] = useState(null);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [url, setUrl] = useState("");
-    const [author, setAuthor] = useState("");
-    const [title, setTitle] = useState("");
     const [error, setError] = useState(null);
     const [notification, setNotification] = useState(null);
-    console.log(user)
 
     useEffect(() => {
         blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -27,6 +25,7 @@ const App = () => {
             setUser(user);
         }
     }, []);
+
     const handleLogin = async (e) => {
         try {
             e.preventDefault();
@@ -77,63 +76,37 @@ const App = () => {
         return (
             <div>
                 <h2>Blogs</h2>
-                {blogs.map((blog) => (
-                    <Blog blog={blog} key={blog.id} />
-                ))}
+                {blogs
+                    .sort((b1, b2) => b2.likes - b1.likes)
+                    .map((blog) => (
+                        <Blog
+                            blog={blog}
+                            key={blog.id}
+                            addLike={increaseLike}
+                            user={user}
+                            deleteBlog={removeBlog}
+                        />
+                    ))}
             </div>
         );
     };
-    const addBlog = async (e) => {
-        e.preventDefault();
-
-        const blog = await blogService.createBlog(
-            { title, author, url },
-            { headers: { Authorization: `bearer ${user.token}` } }
+    const addBlog = async (blog) => {
+        const createdBlog = await blogService.createBlog(blog, {
+            headers: { Authorization: `bearer ${user.token}` },
+        });
+        setBlogs([createdBlog].concat(blogs));
+        window.location.reload(false);
+        setNotification(
+            `a new blog: ${createdBlog.title} by ${createdBlog.author} is added`
         );
-        setBlogs([blog].concat(blogs));
-        setNotification(`a new blog: ${blog.title} by ${blog.author} is added`);
         setTimeout(() => {
             setNotification(null);
         }, 2500);
     };
-    const blogForm = () => {
-        return (
-            <form onSubmit={addBlog}>
-                <div>
-                    title
-                    <input
-                        value={title}
-                        type="text"
-                        name="Title"
-                        onChange={({ target }) => setTitle(target.value)}
-                    />
-                </div>
-                <div>
-                    author
-                    <input
-                        value={author}
-                        type="text"
-                        name="Author"
-                        onChange={({ target }) => setAuthor(target.value)}
-                    />
-                </div>
-                <div>
-                    url
-                    <input
-                        value={url}
-                        type="text"
-                        name="Url"
-                        onChange={({ target }) => setUrl(target.value)}
-                    />
-                </div>
-                <button type="submit">Create</button>
-            </form>
-        );
-    };
     const logOut = () => {
         return (
             <button
-                onClick={(e) => {
+                onClick={() => {
                     window.localStorage.removeItem("loggedNoteappUser");
                     setUser(null);
                 }}
@@ -141,6 +114,19 @@ const App = () => {
                 Log out
             </button>
         );
+    };
+    const increaseLike = async (blog) => {
+        const updatedBlog = await blogService.addLike(blog);
+        setBlogs([updatedBlog].concat(blogs.filter((b) => b.id !== blog.id)));
+    };
+    const removeBlog = async (blog) => {
+        if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+            await blogService.deleteBlog(blog, {
+                headers: { Authorization: `bearer ${user.token}` },
+            });
+            setBlogs(blogs.filter((b) => b.id !== blog.id));
+        }
+        return;
     };
     return (
         <div>
@@ -152,7 +138,11 @@ const App = () => {
                         {user.username} logged-in
                     </p>
                     {logOut()}
-                    {blogForm()}
+                    {
+                        <Togglable label="Create New Blog">
+                            <BlogForm addBlog={addBlog} />
+                        </Togglable>
+                    }
                     {blogList()}
                 </div>
             )}

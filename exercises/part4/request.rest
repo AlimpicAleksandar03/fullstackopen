@@ -1,9 +1,9 @@
 post http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFsZWtzYW5kYXIiLCJpZCI6IjYxOTNjOTM3OGIzYjM3NWEwYmVkZTQ2MyIsImlhdCI6MTYzNzA3OTIxNH0.jVg1W5O_NsAK-K66joPuEOvBBmBCm-E0WvXAMogDcv4
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1pbG9zIiwiaWQiOiI2MTk2MmI1M2FjZmE4MWFmMDhhMTdjOTEiLCJpYXQiOjE2MzcyMzE0NTZ9.PZT3kmb2ppH54DgGU5O9-Q-QD6IU2GM0IPtfMrXSIck
 
 {
-    "title": "Only logged in users can see this",
-    "url":"http",
-    "author": "Aleksandar"
+    "url": "Milos",
+    "title": "Sofijarapaic123",
+    "author": "Milos"
 }

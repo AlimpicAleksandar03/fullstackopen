@@ -9,5 +9,16 @@ const createBlog = async (blog, config) => {
     const response = await axios.post(baseUrl, blog, config);
     return response.data;
 };
+const addLike = async (blog) => {
+    const url = `${baseUrl}/${blog.id}`;
+    const response = await axios.put(url, blog);
+    return response.data;
+};
+const deleteBlog = async (blog, config) => {
+    const url = `${baseUrl}/${blog.id}`;
 
-export default { getAll, createBlog };
+    const response = await axios.delete(url, config);
+    return response.status;
+};
+
+export default { getAll, createBlog, addLike, deleteBlog };
