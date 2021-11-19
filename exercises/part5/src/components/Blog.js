@@ -24,6 +24,7 @@ const Blog = ({ blog, addLike, user, deleteBlog }) => {
                     <div>
                         likes: {blog.likes}
                         <button
+                            className="likeBtn"
                             onClick={() => {
                                 blog.likes++;
                                 addLike({
@@ -33,18 +34,16 @@ const Blog = ({ blog, addLike, user, deleteBlog }) => {
                                     url: blog.url,
                                     id: blog.id,
                                 });
-                            }}
-                        >
+                            }}>
                             Like
                         </button>
                     </div>
                     <div>{blog.author}</div>
                     {user.username === blog.user.username ? (
-                        <button
+                        <button className="deleteBtn"
                             onClick={() => {
                                 deleteBlog(blog);
-                            }}
-                        >
+                            }}>
                             delete
                         </button>
                     ) : (
@@ -52,7 +51,9 @@ const Blog = ({ blog, addLike, user, deleteBlog }) => {
                     )}
                 </>
             )}
-            <button onClick={toggleDetails}>{label}</button>
+            <button onClick={toggleDetails} className="show">
+                {label}
+            </button>
         </div>
     );
 };

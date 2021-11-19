@@ -8,7 +8,7 @@ const Togglable = ({ children, label }) => {
     return (
         <div>
             <div style={show}>
-                <button onClick={toggleVisible}>{label}</button>
+                <button onClick={toggleVisible} id="createBtn">{label}</button>
             </div>
             <div style={hide}>
                 {children} <button onClick={toggleVisible}>Cancel</button>

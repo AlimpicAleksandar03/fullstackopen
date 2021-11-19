@@ -12,7 +12,7 @@ test("event handler has the correct details about input blog", () => {
     const titleInput = component.container.querySelector("#title");
     const authorInput = component.container.querySelector("#author");
 
-    const form = component.container.querySelector("form");
+    const form = component.container.querySelector("form");cdx 
 
     fireEvent.change(urlInput, {
         target: { value: "some url" },

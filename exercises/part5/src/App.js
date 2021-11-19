@@ -19,7 +19,7 @@ const App = () => {
         blogService.getAll().then((blogs) => setBlogs(blogs));
     }, []);
     useEffect(() => {
-        const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
+        const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON);
             setUser(user);
@@ -31,8 +31,8 @@ const App = () => {
             e.preventDefault();
             const user = await loginService.login({ username, password });
             window.localStorage.setItem(
-                "loggedNoteappUser",
-                JSON.stringify(user)
+                "loggedBlogappUser",
+                JSON.stringify(user),
             );
             setUser(user);
             setPassword("");
@@ -52,6 +52,7 @@ const App = () => {
                     <div>
                         username
                         <input
+                            id="username"
                             type="text"
                             value={username}
                             name="Username"
@@ -61,13 +62,16 @@ const App = () => {
                     <div>
                         password
                         <input
+                            id="password"
                             type="password"
                             value={password}
                             name="Password"
                             onChange={({ target }) => setPassword(target.value)}
                         />
                     </div>
-                    <button type="submit">login</button>
+                    <button type="submit" id="loginBtn">
+                        login
+                    </button>
                 </form>
             </>
         );
@@ -97,7 +101,7 @@ const App = () => {
         setBlogs([createdBlog].concat(blogs));
         window.location.reload(false);
         setNotification(
-            `a new blog: ${createdBlog.title} by ${createdBlog.author} is added`
+            `a new blog: ${createdBlog.title} by ${createdBlog.author} is added`,
         );
         setTimeout(() => {
             setNotification(null);
@@ -107,10 +111,9 @@ const App = () => {
         return (
             <button
                 onClick={() => {
-                    window.localStorage.removeItem("loggedNoteappUser");
+                    window.localStorage.removeItem("loggedBlogappUser");
                     setUser(null);
-                }}
-            >
+                }}>
                 Log out
             </button>
         );
