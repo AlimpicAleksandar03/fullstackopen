@@ -19,7 +19,7 @@ export const clearMessage = () => {
 export const setNotification = (message, time) => {
   return (dispatch) => {
     dispatch({ type: "SET_NOTIFICATION", message });
-    setTimeout(() => dispatch(clearMessage()), time);
+    setTimeout(() => dispatch(clearMessage()), time * 1000);
   };
 };
 

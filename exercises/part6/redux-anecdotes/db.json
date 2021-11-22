@@ -1,0 +1,39 @@
+{
+  "anecdotes": [
+    {
+      "content": "If it hurts, do it more often",
+      "id": "47145",
+      "votes": 127
+    },
+    {
+      "content": "ale",
+      "important": false,
+      "votes": 22,
+      "id": "KzQMFWs"
+    },
+    {
+      "content": "sasa",
+      "important": false,
+      "votes": 12,
+      "id": "ctLK_lP"
+    },
+    {
+      "content": "aleksandar is a genius",
+      "important": false,
+      "votes": 4,
+      "id": "z3PXVyG"
+    },
+    {
+      "content": "sa",
+      "important": false,
+      "votes": 2,
+      "id": "Ej7Iy4f"
+    },
+    {
+      "content": "Aleksandar is a  nerd",
+      "important": false,
+      "votes": 126,
+      "id": "Elhr2TO"
+    }
+  ]
+}
