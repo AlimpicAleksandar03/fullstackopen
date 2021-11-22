@@ -1,34 +1,25 @@
-const reducer = (state, action) => {
+const reducer = (state = "", action) => {
   switch (action.type) {
-    case "VOTED": {
+    case "SET_NOTIFICATION": {
       return action.message;
     }
     case "CLEAR": {
       return "";
     }
-    case "CREATED": {
-      return action.message;
-    }
     default:
-      return "";
+      return state;
   }
-};
-
-export const voteMessage = (message) => {
-  return {
-    type: "VOTED",
-    message,
-  };
 };
 export const clearMessage = () => {
   return {
     type: "CLEAR",
   };
 };
-export const createdNotification = (message) => {
-  return {
-    type: "CREATED",
-    message,
+
+export const setNotification = (message, time) => {
+  return (dispatch) => {
+    dispatch({ type: "SET_NOTIFICATION", message });
+    setTimeout(() => dispatch(clearMessage()), time);
   };
 };
 

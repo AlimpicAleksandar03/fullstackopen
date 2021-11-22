@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { vote } from "../reducers/anecdoteReducer";
-import { voteMessage } from "../reducers/notificationReducer";
+import { setNotification } from "../reducers/notificationReducer";
 
 const Anecdote = ({ id, content, votes, handleVote }) => {
   return (
@@ -28,38 +28,45 @@ const AnecdoteList = () => {
           .map((anecdote) => (
             <Anecdote
               key={anecdote.id}
-              key={anecdote.id}
               content={anecdote.content}
               votes={anecdote.votes}
               handleVote={() => {
-                dispatch(vote(anecdote.id));
-                dispatch(voteMessage(`you voted '${anecdote.content}'`));
+                const updatedAnecdote = {
+                  ...anecdote,
+                  votes: anecdote.votes + 1,
+                };
+                dispatch(vote(updatedAnecdote));
+                dispatch(
+                  setNotification(`you voted '${anecdote.content}'`, 2000),
+                );
               }}
             />
           ))}
       </div>
     );
-  } else {
-    const filtered = anecdotes.filter((anecdote) =>
-      anecdote.content.toLowerCase().includes(filterState.toLowerCase()),
-    );
-    return (
-      <div>
-        {filtered.map((anecdote) => (
-          <Anecdote
-            key={anecdote.id}
-            key={anecdote.id}
-            content={anecdote.content}
-            votes={anecdote.votes}
-            handleVote={() => {
-              dispatch(vote(anecdote.id));
-              dispatch(voteMessage(`you voted '${anecdote.content}'`));
-            }}
-          />
-        ))}
-      </div>
-    );
   }
+  const filtered = anecdotes.filter((anecdote) =>
+    anecdote.content.toLowerCase().includes(filterState.toLowerCase()),
+  );
+  return (
+    <div>
+      {filtered.map((anecdote) => (
+        <Anecdote
+          key={anecdote.id}
+          content={anecdote.content}
+          votes={anecdote.votes}
+          handleVote={() => {
+            const updatedAnecdote = {
+              ...anecdote,
+              votes: anecdote.votes + 1,
+            };
+            dispatch(vote(updatedAnecdote));
+            dispatch(setNotification(`you voted '${anecdote.content}'`, 2000));
+          }}
+        />
+      ))}
+    </div>
+  );
 };
 
 export default AnecdoteList;
