@@ -39,7 +39,7 @@ blogRouter.delete("/:id", middleware.extractUser, async (request, response) => {
     const blog = await Blog.findById(request.params.id);
     if (!decodedToken.id) {
         return response.status(401).json({ error: "token missing or invalid" });
-    }
+    } 
     if (user.id.toString() === blog.user.toString()) {
         await Blog.findByIdAndRemove(request.params.id);
         return response.status(204).end();

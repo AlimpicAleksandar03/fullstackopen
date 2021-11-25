@@ -111,7 +111,7 @@ const App = () => {
         return (
             <button
                 onClick={() => {
-                    window.localStorage.removeItem("loggedBlogappUser");
+                    window.localStorage.removeItem ("loggedBlogappUser");
                     setUser(null);
                 }}>
                 Log out
